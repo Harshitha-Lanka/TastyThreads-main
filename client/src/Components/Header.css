@@ -1,0 +1,39 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 4px 40px;
+    background-color: #ffffff; 
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.7); 
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+  }
+
+  .logo img {
+    height: 80px;
+  }
+  
+  .nav ul {
+    list-style: none; 
+    display: flex; 
+    gap: 80px; 
+    margin: 0; 
+  }
+  
+  .nav a {
+    text-decoration: none; 
+    color: #000000;
+    font-weight: bold; 
+    font-size: 20px;
+  }
+  
+  .nav a:hover {
+    color: #444; 
+  }
+  
+  #about-us-section {
+    scroll-margin-top: 150px; /* Adjust based on your header's height */
+  }

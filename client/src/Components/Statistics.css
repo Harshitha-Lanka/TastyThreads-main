@@ -1,0 +1,35 @@
+/* stat */
+.stat {
+    height: 250px;
+    background-color: #000000;
+    margin-top: 60px;
+  }
+  
+  .stat-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 250px;
+    width: 100%;
+    gap: 260px;
+    flex-wrap: wrap;
+  }
+  
+  .box {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+  }
+  
+  #technicians {
+    color: white;
+    font-size: 50px;
+  }
+  
+  .justify {
+    color: white;
+    font-size: 20px;
+    margin-top: 15px;
+    font-weight: bold;
+  }

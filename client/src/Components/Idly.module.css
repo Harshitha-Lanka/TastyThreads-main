@@ -1,0 +1,120 @@
+body{
+  font-family: Arial, Helvetica, sans-serif;
+}
+.fluffy{
+    margin-top: 150px;
+    text-align: center;
+}
+.idly{
+    width: 800px;
+    border-radius: 15px;
+    height: 400px;
+
+}
+.imagecontainer{
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
+}
+
+  
+  
+
+.ingre{
+    font-size: 25px;
+    margin-left:280px;
+    margin-top: 80px;
+    text-decoration: underline;
+}
+.ing{
+    width: 500px;
+    height: 400px;
+   
+    border-radius: 6px;
+   margin-top: 50px;
+   margin-left: -150px;
+  
+    
+}
+.list{
+    line-height: 55px;
+    font-size: 18px;
+    margin-top: 70px;
+}
+.maincontainer{
+    display: flex;
+   
+}
+.steps{
+     margin-top: 85px;
+     text-decoration: underline;
+     margin-left: 80px;
+     font-size: 25px;
+    
+}
+.idlysteps{
+    margin-left: 80px;
+    line-height: 45px;
+    font-size: 18px;
+}
+.recipescontainer {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    border: 1px solid #e0e0e0;
+    padding: 20px;
+    width: 60%;
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 20px auto; /* Centering the component */
+  }
+  
+  .infoitem {
+    text-align: center;
+    margin: 0 20px;
+  }
+  
+  .infoitem h2 {
+    margin: 0;
+    font-size: 2.5em;
+    color: #333;
+  }
+  
+  .infoitem p {
+    margin: 5px 0;
+    color: #666;
+  }
+  .notes{
+    text-align: center;
+    margin-top: 55px;
+   
+  }
+  .area{
+    height: 200px;
+    width: 700px;
+    display: flex;
+    justify-content: center;
+    margin-left: 400px;
+    margin-top: 50px;
+  }
+  .accom{
+    margin-left: 14rem;
+    margin-top: 12rem;
+    font-size: 30px;
+  }
+  
+  .sam{
+    line-height: 35px;
+    margin-top: 30px;
+    margin-left: 15rem;
+    font-size: 18px;
+  }
+  .sambar{
+    height: 100px;
+    width: 100px;
+    
+  }
+
+  
+  

@@ -1,0 +1,90 @@
+/* h1{
+    text-align: center;
+    color: black;
+    font-size: 60px;
+ 
+} */
+body{
+    background-color: white;
+}
+.recipe {
+    width: 350px;
+    border: 1px solid black;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s;
+   margin-left:1000px;
+    margin-top:-420px;
+   
+  }
+  
+  .recipe-card:hover {
+    transform: scale(1.05);
+  }
+  
+  .recipeimage {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    background-color: black;
+  }
+  
+  .recipecontent {
+    padding: 15px;
+    text-align: center;
+    
+  }
+  
+  .recipetitle {
+    font-size: 20px;
+    margin-bottom: 10px;
+    text-align: center;
+   
+  }
+  
+  .breakfastlist {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .breakfastitem {
+  margin-left:10px;
+    text-align: center;
+    list-style: none;
+    padding: 5px;
+  }
+  
+  .breakfastitem a {
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+    transition: color 0.2s;
+  }
+  
+  .breakfastitem a:hover {
+    color: #0056b3;
+  }
+  .show{
+    background-color: black;
+    color: white;
+    height: 28px;
+    width: 30%;
+    border-radius: 5px;
+    
+  
+  cursor: pointer;
+  }
+    
+  
+  .show:hover{
+     background-color: #444;;
+  }
+  .buttoncontainer{
+    display: flex;
+    justify-content: center;
+   
+    margin-left: 30px;
+  }
+  
+  

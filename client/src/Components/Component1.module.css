@@ -1,0 +1,197 @@
+body {
+  overflow-x: hidden;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+
+.heading{
+    text-align: center;
+    color: black;
+    font-size: 50px;
+    font-family: 'Raleway', sans-serif;
+    margin-top: 140px;
+    
+ 
+}
+.fonteffectAnimation{
+  font-family: 'Raleway', sans-serif;
+}
+body{
+    background-color: white;
+}
+.recipe1 {
+    width: 350px;
+    border: 1px solid black;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s;
+    margin-left: 120px;
+    margin-top:100px;
+
+
+  }
+  
+  
+  .recipe-card:hover {
+    transform: scale(1.05);
+  }
+  
+  .recipeimage {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+  }
+  
+  .recipecontent {
+    padding: 15px;
+    text-align: center;
+    text-align: center;
+  }
+  
+  .recipetitle {
+    font-size: 20px;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+  
+  .breakfastlist {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .breakfastitem {
+  margin-left:10px;
+    text-align: center;
+    list-style: none;
+    padding: 5px;
+  }
+  
+  .breakfastitem a {
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+    transition: color 0.2s;
+  }
+  
+  .breakfastitem a:hover {
+    color: #0056b3;
+  }
+  .back {
+    background-image: url('../Images/image15.png'); 
+    background-size: cover; 
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.1;
+    position: absolute;
+    top: 10%;
+    left: 0;
+    width: 100%;
+    height:1500px;
+    z-index: -1;
+    margin-top: 100px;
+  }
+  
+  .page-container {
+    position: relative; 
+  }
+  .heading2{
+    font-size: 40px;
+    margin-top: 70px;
+    text-align: center;
+  }
+  .button2{
+    height: 55px;
+    width: 180px;
+    background-color: black;
+    color: white;
+    border-radius:10px;
+    text-align: center;
+    font-weight: bold;
+    margin-left: 680px;
+    margin-top: 80px;
+    cursor: pointer;
+  
+    
+  }
+  
+  .formContainer {
+    display: flex;
+    flex-direction: column; /* Arrange elements vertically */
+    align-items: center;    /* Center elements horizontally */
+    justify-content: center; /* Center elements vertically */
+    margin: 0 auto;         /* Center the form container */
+    padding: 20px;
+  
+  }
+  
+  .contact {
+    font-size: 35px;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .inputContainer {
+    display: flex;
+    flex-direction: column; /* Stack inputs vertically */
+    align-items: center;    /* Center inputs horizontally */
+  }
+  
+  .text, .emails, .message {
+    width: 650px;
+    height: 25px;
+    margin: 30px 0;         /* Space between inputs */
+    border-radius: 10px;
+    font-size: 15px;
+    border: 1px solid rgba(128, 128, 128, 0.16);
+    padding: 10px;          /* Padding inside inputs */
+  }
+  
+  .message {
+    height: 150px;    
+    margin-left: -10px;    
+  }
+  
+  .buttonContainer {
+    display: flex;
+    justify-content: center; /* Center the button */
+    margin-top: 20px;
+  }
+  
+  .submits {
+    height: 40px;
+    width: 100px;
+    background-color: black;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;      
+  }
+  
+  .submits:hover {
+    background-color: #555; 
+  }
+  @media (max-width: 768px) {
+    .recipeCard {
+      width: 60%; /* Cards take up 90% of the screen width */
+      margin: 10px auto;
+    }
+  }
+  .show{
+    background-color: black;
+    color: white;
+    height: 28px;
+    width: 30%;
+    border-radius: 5px;
+    cursor: pointer;
+    
+  }
+  .show:hover{
+     background-color: #444;;
+  }
+  .buttoncontainer{
+    display: flex;
+    justify-content: center;
+    margin: 10px;
+    margin-left: 18px;
+  }
