@@ -12,7 +12,8 @@ const home = async (req, res) => {
   //code for your signup controller
   const signup = async (req, res) => {
     try {
-      res.status(200).send({ message: "signup page" });
+        console.log(req.body)
+      res.status(200).send({ message: req.body });
     } catch (error) {
       res.status(500).json({ message: "error loading the page" });
     }
@@ -21,7 +22,7 @@ const home = async (req, res) => {
 
   const recipeform = async (req, res) => {
     try {
-      res.status(200).send({ message: "signup page" });
+      res.status(200).send({ message: "recipe page" });
     } catch (error) {
       res.status(500).json({ message: "error loading the page" });
     }
