@@ -20,7 +20,6 @@ const RecipeForm = () => {
     const { name, value, dataset, files } = e.target;
     
     if (name === 'image') {
-      // Handle image file change
       setFormData({ ...formData, [name]: files[0] });
     } else if (dataset.index) {
       const index = parseInt(dataset.index);
@@ -33,41 +32,38 @@ const RecipeForm = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Create a FormData object to handle file uploads along with text fields
+    console.log("button clicked");
+    console.log("Form Data:", formData);
+    
+    // FormData object to hold the form data for submission
     const data = new FormData();
-    data.append('recipeTitle', formData.recipeTitle);
-    data.append('description', formData.description);
-    formData.ingredients.forEach((ingredient, index) => {
-      data.append(`ingredients[${index}]`, ingredient);
-    });
-    formData.steps.forEach((step, index) => {
-      data.append(`steps[${index}]`, step);
-    });
-    data.append('prepTime', formData.prepTime);
-    data.append('cookTime', formData.cookTime);
-    data.append('servings', formData.servings);
-    data.append('category', formData.category);
-    data.append('calories', formData.calories);
-    if (formData.image) data.append('image', formData.image);
-
-    console.log('Recipe Submitted:', formData);
-
-    // Reset form data after submission
-    setFormData({
-      recipeTitle: '',
-      description: '',
-      ingredients: ['', '', '', '', '', '', ''],
-      steps: ['', '', '', '', '', '', ''],
-      prepTime: '',
-      cookTime: '',
-      servings: '',
-      category: '',
-      calories: '',
-      image: null,
-    });
+    for (let key in formData) {
+      if (key === "ingredients" || key === "steps") {
+        formData[key].forEach((item, index) => data.append(`${key}[${index}]`, item));
+      } else {
+        data.append(key, formData[key]);
+      }
+    }
+  
+    try {
+      const response = await fetch("http://localhost:5000/TastyThreads/recipes/add", {
+        method: "POST",
+        body: data,
+      });
+    
+      if (response.ok) {
+        console.log("Recipe submitted successfully!");
+      } else {
+        console.error("Failed to submit recipe");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
   };
+  
+  
 
   return (
     <div className="recipepage">
@@ -173,19 +169,20 @@ const RecipeForm = () => {
           <option value="salads">Salads</option>
         </select>
 
-        {/* Image Upload */}
-        <label className="form-label">Upload Recipe Image:</label>
+        {/* Image Upload 
+         { <label className="form-label">Upload Recipe Image:</label>
         <input
           type="file"
           name="image"
           accept="image/*"
           onChange={handleChange}
           className="formcontrol"
-        />
+        /> } */}
 
-        <button type="submit" className="button1" onClick={handleSubmit}>
+        <button type="button" className="button1" onClick={handleSubmit}>
           Add Recipe
         </button>
+ 
       </div>
     </div>
   );

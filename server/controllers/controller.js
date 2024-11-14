@@ -1,5 +1,5 @@
+const Recipe = require("../models/schema-recipeform");
 
-//code for your home controller
 const home = async (req, res) => {
     try {
       res.status(200).json({ msg: "home page" });
@@ -27,6 +27,30 @@ const home = async (req, res) => {
       res.status(500).json({ message: "error loading the page" });
     }
   };
+  const addRecipe = async (req, res) => {
+    console.log(req.body)
+    try {
+      const recipeData = req.body;
+      const newRecipe = new Recipe(recipeData);
+      await newRecipe.save();
+      res.status(201).json({ message: "Recipe added successfully", recipe: newRecipe });
+    } catch (error) {
+      console.error("Error adding recipe:", error); // Log the error details
+      res.status(500).json({ message: "Failed to add recipe", error });
+    }
+  };
   
   
-  module.exports = { home, signup , recipeform };
+  // Get all recipes
+  const getRecipes = async (req, res) => {
+    try {
+      const recipes = await Recipe.find({});
+      res.status(200).json(recipes);
+    } catch (error) {
+      console.error("Error fetching recipes:", error); // Log the error details
+      res.status(500).json({ message: "Failed to retrieve recipes", error });
+    }
+  };
+  
+  
+  module.exports = { home, signup , recipeform ,addRecipe,getRecipes};
