@@ -1,39 +1,99 @@
 .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 4px 40px;
-    background-color: #ffffff; 
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.7); 
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 1000;
-  }
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 40px;
+  background-color: #ffffff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.7);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+}
 
-  .logo img {
-    height: 80px;
-  }
-  
-  .nav ul {
-    list-style: none; 
-    display: flex; 
-    gap: 80px; 
-    margin: 0; 
-  }
-  
-  .nav a {
-    text-decoration: none; 
-    color: #000000;
-    font-weight: bold; 
-    font-size: 20px;
-  }
-  
-  .nav a:hover {
-    color: #444; 
-  }
-  
-  #about-us-section {
-    scroll-margin-top: 150px; /* Adjust based on your header's height */
-  }
+.logo img {
+  height: 60px;
+}
+
+.nav ul {
+  list-style: none;
+  display: flex;
+  gap: 40px;
+  margin: 0;
+  padding: 0;
+}
+
+.nav a {
+  text-decoration: none;
+  color: #000000;
+  font-weight: bold;
+  font-size: 18px;
+  transition: color 0.3s ease;
+}
+
+.nav a:hover {
+  color: #444;
+}
+
+.profile-section {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.profile-menu {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background-color: #f9f9f9;
+  padding: 5px 10px;
+  border-radius: 25px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.profile-avatar {
+  height: 45px;
+  width: 45px;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.profile-avatar:hover {
+  transform: scale(1.1);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+}
+
+.logout-button {
+  background: #000000; /* Tomato color */
+  color: white;
+  border: none;
+  padding: 5px 12px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.logout-button:hover {
+  background: #979797; /* Darker tomato */
+}
+
+.login-link {
+  text-decoration: none;
+  color: #000;
+  font-weight: bold;
+  font-size: 16px;
+  border: 1px solid #000;
+  padding: 6px 12px;
+  border-radius: 20px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.login-link:hover {
+  background-color: #f0f0f0;
+  color: #444;
+}
