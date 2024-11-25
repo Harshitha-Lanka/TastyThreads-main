@@ -1,29 +1,36 @@
 require("dotenv").config(); // Load environment variables
 const express = require("express");
-const cors = require("cors"); // Import the CORS middleware
+const cors = require("cors");
 const multer = require("multer");
-const app = express();
-const router = require("./routers/route");
 const connectDb = require("./config/db");
+const router = require("./routers/route");
 
-// Configure multer (no storage needed if no files are being uploaded)
-const upload = multer();
-
-app.use(cors()); // Enable CORS for all routes
-app.use(express.json());
-app.use(express.urlencoded({ extended: true })); // To parse URL-encoded data
-
-// Use multer middleware specifically for multipart/form-data
-app.use("/TastyThreads", upload.none(), router);
-
+const app = express();  // Initialize the app here
 const PORT = 5000;
 
-// Connect to the database first, then start the server
-connectDb().then(() => {
-  app.listen(PORT, () => {
-    console.log(`Server is running at port: ${PORT}`);
+// Middleware
+app.use(cors()); // Enable CORS
+app.use(express.json());
+app.use(express.urlencoded({ extended: true })); // Parse URL-encoded data
+
+// Serve static files from the 'uploads' directory
+app.use("/uploads", express.static("uploads"));
+
+// Configure multer for file uploads
+const upload = multer({ dest: "uploads/" });
+app.use(upload.none()); // Default multer setup for parsing multipart/form-data
+
+// Routes
+app.use("/TastyThreads", router);
+
+// Database connection and server startup
+connectDb()
+  .then(() => {
+    app.listen(PORT, () => {
+      console.log(`Server is running at http://localhost:${PORT}`);
+    });
+  })
+  .catch((error) => {
+    console.error("Database connection failed", error);
+    process.exit(1); // Exit the process if DB connection fails
   });
-}).catch((error) => {
-  console.error("Database connection failed", error);
-  process.exit(1); // Exit the process with an error
-});

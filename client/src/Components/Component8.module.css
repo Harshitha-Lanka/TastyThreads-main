@@ -14,8 +14,9 @@ body{
     overflow: hidden;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s;
-   margin-left:550px;
+   margin-left:540px;
     margin-top:-420px;
+
   }
   
   .recipe-card:hover {

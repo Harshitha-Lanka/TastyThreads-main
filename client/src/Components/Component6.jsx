@@ -1,42 +1,48 @@
-import React from 'react'
-import styles from  './Component6.module.css'
-import { BrowserRouter as Router, Route, Routes,Link } from 'react-router-dom';
-import  image8 from '../Images/image8.jpeg'
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import styles from './Component6.module.css';
+import image8 from '../Images/image8.jpeg'; // Import your vegan food image
+import RecipeListVegan from './Recipelistvegan'; // Import RecipeListVegan component
 
 const Component6 = () => {
+    const [showDropdown, setShowDropdown] = useState(false); // State for dropdown visibility
+
     const vegan = [
         { name: 'Poha', path: '/recipe/Poha' },
         { name: 'Upma', path: '/recipe/Upma' },
-         { name: 'Vibrantveg', path: '/recipe/Vibrant' }
-      ];
-  return (
-    <>
-   
-    <div>
+        { name: 'Vibrant Veg', path: '/recipe/Vibrant' },
+    ];
 
-      <div className={styles.recipe}>
-      {/* Image of breakfast */}
-      <img src={image8} alt="Breakfast" className={styles.recipeimage}/>
+    return (
+        <div className={styles.recipe}>
+            {/* Image of vegan food */}
+            <img src={image8} alt="Vegan" className={styles.recipeimage} />
 
-      {/* List of breakfast types */}
-      <div className={styles.recipecontent}>
-        <h2 className={styles.recipetitle}>Available Vegan</h2>
-        <ul className={styles.breakfastitem}>
-          {vegan.map((item) => (
-            <li key={item.name} className={styles.breakfastitem}>
-              <Link to={item.path}>{item.name}</Link>
-            </li>
-          ))}
-        </ul>
-        <div className={styles.buttoncontainer}>
-        <button className={styles.show}>Show More</button>
+            <div className={styles.recipecontent}>
+                <h2 className={styles.recipetitle}>Available Vegan</h2>
+                <ul className={styles.breakfastitem}>
+                    {vegan.map((item) => (
+                        <li key={item.name} className={styles.breakfastitem}>
+                            <Link to={item.path}>{item.name}</Link>
+                        </li>
+                    ))}
+                </ul>
+
+                {/* Show More button */}
+                <div className={styles.buttoncontainer}>
+                    <button
+                        className={styles.show}
+                        onClick={() => setShowDropdown(!showDropdown)}
+                    >
+                        {showDropdown ? 'Show Less' : 'Show More'}
+                    </button>
+
+                    {/* Conditionally render RecipeListVegan */}
+                    {showDropdown && <RecipeListVegan />}
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
+    );
+};
 
-    </div>
-    </>
-  )
-}
-
-export default Component6
+export default Component6;

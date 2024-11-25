@@ -8,6 +8,8 @@ import './App.css';
 import RecipeDetailsPage from './Components/RecipeDetailsPage';
 import './index.css'
 import Signup from './Components/Signup';
+import Recipedetailing from './Components/Recipedetailing'
+import Listingofrecipe from './Components/Listingofrecipe'
 
 function App() {
   return (
@@ -25,6 +27,8 @@ function App() {
          <Route path="/RecipeDetailsPage/:name" element={<RecipeDetailsPage />} />
          <Route path="/recipe/:name" element={<RecipeDetailsPage />} />
          <Route path="/Signup" element={<Signup/>}/>
+         <Route path="/recipe/:id" element={<Recipedetailing />} />
+         <Route path="/RecipeList" element={<Listingofrecipe />}/>
 
         </Routes>
       
