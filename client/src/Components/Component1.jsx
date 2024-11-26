@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import styles from './Component1.module.css';
-import RecipeList from './RecipeList'; // Import the RecipeList component
+import BreakfastRecipeList from './RecipeListBreakfast';  // Corrected import
+
 import breakfast from '../Images/breakfast.jpg';
 
 const Component1 = () => {
@@ -19,19 +21,20 @@ const Component1 = () => {
                 <div className={styles.recipecontent}>
                     <h2 className={styles.recipetitle}>Available Breakfast</h2>
                     <ul className={styles.breakfastitem}>
-                        <li>Idly</li>
-                        <li>Dosa</li>
-                        <li>Omelette</li>
+                        <li><Link to="/recipe/Idly">Idly</Link></li>
+                        <li><Link to="/recipe/Dosa">Dosa</Link></li>
+                        <li><Link to="/recipe/Omelette">Omelette</Link></li>
                     </ul>
 
-                    {/* Show More button and RecipeList component */}
                     <div className={styles.buttoncontainer}>
                         <button 
                             className={styles.show}
                             onClick={() => setShowDropdown(!showDropdown)}
-                        >Show more
+                        >
+                            {showDropdown ? "Show Less" : "Show More"}
                         </button>
-                        {showDropdown && <RecipeList />} {/* Render RecipeList component here */}
+                        {/* Pass the state to BreakfastRecipeList */}
+                        {showDropdown && <BreakfastRecipeList />}
                     </div>
                 </div>
             </div>

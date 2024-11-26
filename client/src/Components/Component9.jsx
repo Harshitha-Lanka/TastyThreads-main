@@ -1,42 +1,55 @@
-import React from 'react'
-import styles from  './Component9.module.css'
-import { BrowserRouter as Router, Route, Routes,Link } from 'react-router-dom';
-import  image11 from '../Images/image11.jpg'
 
-const Component1 = () => {
-    const Salads = [
+import React, { useState } from 'react';
+import styles from './Component9.module.css';
+import { Link } from 'react-router-dom';
+// Import RecipeListSalads component
+import RecipeListSalads from './Recipelistsalads';
+import image11 from '../Images/image11.jpg'; // Salad image
+
+const Component9 = () => {
+    const [showDropdown, setShowDropdown] = useState(false); // State for dropdown visibility
+
+    const salads = [
         { name: 'Greensalad', path: '/recipe/Greensalad' },
         { name: 'Veg Vibe', path: '/recipe/VegVibe' },
-         { name: 'Bowl glow', path: '/recipe/BowlGlow' }
-      ];
-  return (
-    <>
-   
-    <div>
+        { name: 'Bowl glow', path: '/recipe/BowlGlow' },
+    ];
 
-      <div className={styles.recipe}>
-    
-      <img src={image11} alt="Breakfast" className={styles.recipeimage}/>
+    return (
+        <>
+            <div>
+                <div className={styles.recipe}>
+                    {/* Image of Salads */}
+                    <img src={image11} alt="Salads" className={styles.recipeimage} />
 
-     
-      <div className={styles.recipecontent}>
-        <h2 className={styles.recipetitle}>Available Salads</h2>
-        <ul className={styles.breakfastitem}>
-          {Salads.map((item) => (
-            <li key={item.name} className={styles.breakfastitem}>
-              <Link to={item.path}>{item.name}</Link>
-            </li>
-          ))}
-        </ul>
-        <div className={styles.buttoncontainer}>
-        <button className={styles.show}>Show More</button>
-        </div>
-      </div>
-    </div>
+                    {/* Content for Available Salads */}
+                    <div className={styles.recipecontent}>
+                        <h2 className={styles.recipetitle}>Available Salads</h2>
+                        <ul className={styles.breakfastitem}>
+                            {salads.map((item) => (
+                                <li key={item.name} className={styles.breakfastitem}>
+                                    <Link to={item.path}>{item.name}</Link>
+                                </li>
+                            ))}
+                        </ul>
 
-    </div>
-    </>
-  )
-}
+                        {/* Show More Button */}
+                        <div className={styles.buttoncontainer}>
+                            <button
+                                className={styles.show}
+                                onClick={() => setShowDropdown(!showDropdown)}
+                            >
+                                {showDropdown ? 'Show Less' : 'Show More'}
+                            </button>
 
-export default Component1
+                            {/* Conditionally render RecipeListSalads when the dropdown is active */}
+                            {showDropdown && <RecipeListSalads />}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </>
+    );
+};
+
+export default Component9;

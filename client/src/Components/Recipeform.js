@@ -1,4 +1,3 @@
-// src/RecipeForm.js
 import './Recipe.css';
 import React, { useState } from 'react';
 
@@ -16,16 +15,25 @@ const RecipeForm = () => {
     image: null, // State to store the image file
   });
 
+  const [imagePreview, setImagePreview] = useState(null); // State to hold image preview
+
   const handleChange = (e) => {
     const { name, value, dataset, files } = e.target;
-    
+
     if (name === 'image') {
-      setFormData({ ...formData, [name]: files[0] });
+      const file = files[0];
+      setFormData({ ...formData, [name]: file });
+
+      // Generate a preview URL for the selected image
+      if (file) {
+        const previewUrl = URL.createObjectURL(file);
+        setImagePreview(previewUrl);
+      }
     } else if (dataset.index) {
       const index = parseInt(dataset.index);
       setFormData((prevData) => ({
         ...prevData,
-        [name]: prevData[name].map((item, i) => (i === index ? value : item))
+        [name]: prevData[name].map((item, i) => (i === index ? value : item)),
       }));
     } else {
       setFormData({ ...formData, [name]: value });
@@ -34,36 +42,35 @@ const RecipeForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("button clicked");
-    console.log("Form Data:", formData);
-    
-    // FormData object to hold the form data for submission
+    console.log('Form Data:', formData);
+
+    // Create a FormData object to handle form submission
     const data = new FormData();
     for (let key in formData) {
-      if (key === "ingredients" || key === "steps") {
-        formData[key].forEach((item, index) => data.append(`${key}[${index}]`, item));
+      if (key === 'ingredients' || key === 'steps') {
+        formData[key].forEach((item, index) =>
+          data.append(`${key}[${index}]`, item)
+        );
       } else {
         data.append(key, formData[key]);
       }
     }
-  
+
     try {
-      const response = await fetch("http://localhost:5000/TastyThreads/recipes/add", {
-        method: "POST",
+      const response = await fetch('http://localhost:5000/TastyThreads/recipes/add', {
+        method: 'POST',
         body: data,
       });
-    
+
       if (response.ok) {
-        console.log("Recipe submitted successfully!");
+        console.log('Recipe submitted successfully!');
       } else {
-        console.error("Failed to submit recipe");
+        console.error('Failed to submit recipe');
       }
     } catch (error) {
-      console.error("Error:", error);
+      console.error('Error:', error);
     }
   };
-  
-  
 
   return (
     <div className="recipepage">
@@ -119,7 +126,17 @@ const RecipeForm = () => {
           />
         ))}
 
-        {/* <label className="form-label">Preparation Time (minutes):</label>
+        <label className="form-label">Servings:</label>
+        <input
+          type="number"
+          name="servings"
+          value={formData.servings}
+          onChange={handleChange}
+          required
+          className="formcontrol"
+        />
+
+        <label className="form-label">Preparation Time (minutes):</label>
         <input
           type="number"
           name="prepTime"
@@ -127,7 +144,7 @@ const RecipeForm = () => {
           onChange={handleChange}
           required
           className="formcontrol"
-        /> */}
+        />
 
         <label className="form-label">Cooking Time (minutes):</label>
         <input
@@ -169,20 +186,18 @@ const RecipeForm = () => {
           <option value="salads">Salads</option>
         </select>
 
-        {/* Image Upload 
-         { <label className="form-label">Upload Recipe Image:</label>
+        <label className="form-label">Image:</label>
+        {imagePreview && <img src={imagePreview} alt="Image Preview" style={{ maxWidth: '100%', height: 'auto' }} />}
         <input
           type="file"
           name="image"
           accept="image/*"
           onChange={handleChange}
-          className="formcontrol"
-        /> } */}
+        />
 
         <button type="button" className="button1" onClick={handleSubmit}>
           Add Recipe
         </button>
- 
       </div>
     </div>
   );

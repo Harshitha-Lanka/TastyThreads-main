@@ -1,19 +1,24 @@
-import React, { useEffect } from "react";
-import { useLocation, useNavigate } from 'react-router-dom';  
+import React, { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import "./Home.css";
-import Image1 from '../Assets/breadfry.jpeg';
-import Image2 from '../Assets/chole.jpeg';
-import Image3 from '../Assets/momos.jpeg';
-import Detail from './Detail';  
-import Header from '../Components/Header.js';
-import Footer from '../Components/Footer.js';
-import Statistics from '../Components/Statistics.js';
+import Image1 from "../Assets/breadfry.jpeg";
+import Image2 from "../Assets/chole.jpeg";
+import Image3 from "../Assets/momos.jpeg";
+import Detail from "./Detail";
+import Header from "../Components/Header.js";
+import Footer from "../Components/Footer.js";
+import Statistics from "../Components/Statistics.js";
+import SignupModal from "../Components/SignupModal"; // Import the modal component
 
 function Home() {
-  const location = useLocation();  
-  const navigate = useNavigate();  
-  
- 
+  const [isModalOpen, setIsModalOpen] = useState(false); // State to control modal
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  // Check login status (replace this logic with your actual login check)
+  const isLoggedIn = localStorage.getItem("isLoggedIn") === "true"; // Example logic
+
+  // Scroll to section logic
   useEffect(() => {
     if (location.hash === "#about-us-section") {
       const aboutSection = document.getElementById("about-us-section");
@@ -21,7 +26,16 @@ function Home() {
         aboutSection.scrollIntoView({ behavior: "smooth" });
       }
     }
-  }, [location]);
+
+    // Trigger modal after 4 seconds, only if not logged in
+    if (!isLoggedIn) {
+      const timer = setTimeout(() => {
+        setIsModalOpen(true);
+      }, 4000);
+
+      return () => clearTimeout(timer); // Cleanup on unmount
+    }
+  }, [location, isLoggedIn]);
 
   const images = [
     { src: Image1, name: "Bread Fry" },
@@ -33,6 +47,11 @@ function Home() {
     <>
       <Header />
       <div className="home-container">
+        {/* Modal */}
+        {!isLoggedIn && (
+          <SignupModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+        )}
+
         {/* Hero Section */}
         <section className="hero-section">
           <div className="hero-content">
@@ -50,11 +69,11 @@ function Home() {
             </p>
             <div className="hero-buttons">
               {/* Redirect to Login Page */}
-              <button className="btn-login" onClick={() => navigate('/login')}>
+              <button className="btn-login" onClick={() => navigate("/login")}>
                 Login
               </button>
               {/* Redirect to Sign Up Page */}
-              <button className="btn-signup" onClick={() => navigate('/signup')}>
+              <button className="btn-signup" onClick={() => navigate("/signup")}>
                 Sign Up
               </button>
             </div>
@@ -73,7 +92,10 @@ function Home() {
             ))}
           </div>
           {/* Redirect to Recipe List Page */}
-          <button className="btn-explore" onClick={() => navigate('/RecipeListPage')}>
+          <button
+            className="btn-explore"
+            onClick={() => navigate("/RecipeListPage")}
+          >
             Explore More
           </button>
         </section>
@@ -81,9 +103,14 @@ function Home() {
         {/* Add your recipe section */}
         <section className="add-recipe-section">
           <div className="left-section1">
-            <h2 className="heading2">Share Your Culinary Creations with the World!</h2>
+            <h2 className="heading2">
+              Share Your Culinary Creations with the World!
+            </h2>
             {/* Redirect to Recipe Form Page */}
-            <button className="btn-add-recipe" onClick={() => navigate('/RecipeForm')}>
+            <button
+              className="btn-add-recipe"
+              onClick={() => navigate("/RecipeForm")}
+            >
               Add Your Recipe
             </button>
           </div>
@@ -100,17 +127,17 @@ function Home() {
           <p>
             At Tasty Threads, we believe in the power of food to bring people
             together. Our platform is dedicated to sharing diverse recipes from
-            around the globe, celebrating culinary traditions and innovations. We
-            strive to create a community where every food lover can contribute,
-            learn, and be inspired. Join us on this flavorful journey as we
-            explore the art of cooking and the joy of sharing! Our mission is to
-            make cooking accessible and enjoyable for everyone, whether you’re a
-            seasoned chef or a beginner in the kitchen. We encourage creativity
-            and experimentation, inviting you to put your unique twist on beloved
-            recipes. Together, we can inspire each other and discover new flavors
-            that excite our taste buds. Let’s build a vibrant community where each
-            recipe tells a story, and every meal is a celebration of culture and
-            friendship.
+            around the globe, celebrating culinary traditions and innovations.
+            We strive to create a community where every food lover can
+            contribute, learn, and be inspired. Join us on this flavorful
+            journey as we explore the art of cooking and the joy of sharing! Our
+            mission is to make cooking accessible and enjoyable for everyone,
+            whether you’re a seasoned chef or a beginner in the kitchen. We
+            encourage creativity and experimentation, inviting you to put your
+            unique twist on beloved recipes. Together, we can inspire each other
+            and discover new flavors that excite our taste buds. Let’s build a
+            vibrant community where each recipe tells a story, and every meal is
+            a celebration of culture and friendship.
           </p>
         </section>
 

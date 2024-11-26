@@ -1,43 +1,51 @@
-import React from 'react'
-import styles from  './Component8.module.css'
-
-import { BrowserRouter as Router, Route, Routes,Link } from 'react-router-dom';
-import  image10 from '../Images/image10.jpg'
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import styles from './Component8.module.css';
+import image10 from '../Images/image10.jpg'; // Import your ice cream image
+import RecipeListIceCream from './Recipelisticecreams'; // Import the component for listing ice cream recipes
 
 const Component1 = () => {
-    const icecreams = [
-        { name: 'Butterscotch', path: '/recipe/Butterscotch' },
-        { name: 'Chocolate', path: '/recipe/Chocolate' },
-         { name: 'Vanilla', path: '/recipe/Vanilla' }
-      ];
+  const [showDropdown, setShowDropdown] = useState(false); // State for dropdown visibility
+
+  const icecreams = [
+    { name: 'Butterscotch', path: '/recipe/Butterscotch' },
+    { name: 'Chocolate', path: '/recipe/Chocolate' },
+    { name: 'Vanilla', path: '/recipe/Vanilla' }
+  ];
+
   return (
     <>
-   
-    <div>
-    
       <div className={styles.recipe}>
-      {/* Image of breakfast */}
-      <img src={image10} alt="Breakfast" className={styles.recipeimage}/>
+        {/* Image of ice creams */}
+        <img src={image10} alt="Ice Creams" className={styles.recipeimage} />
 
-      {/* List of breakfast types */}
-      <div className={styles.recipecontent}>
-        <h2 className={styles.recipetitle}>Available Icecreams</h2>
-        <ul className={styles.lunchitems}>
-          {icecreams.map((item) => (
-            <li key={item.name} className={styles.breakfastitem}>
-              <Link to={item.path}>{item.name}</Link>
-            </li>
-          ))}
-        </ul>
-        <div className={styles.buttoncontainer}>
-        <button className={styles.show}>Show More</button>
+        {/* List of ice cream types */}
+        <div className={styles.recipecontent}>
+          <h2 className={styles.recipetitle}>Available Ice Creams</h2>
+          <ul className={styles.lunchitems}>
+            {icecreams.map((item) => (
+              <li key={item.name} className={styles.breakfastitem}>
+                <Link to={item.path}>{item.name}</Link>
+              </li>
+            ))}
+          </ul>
+
+          {/* Show More button */}
+          <div className={styles.buttoncontainer}>
+            <button
+              className={styles.show}
+              onClick={() => setShowDropdown(!showDropdown)}
+            >
+              {showDropdown ? 'Show Less' : 'Show More'}
+            </button>
+
+            {/* Conditionally render RecipeListIceCream when the dropdown is active */}
+            {showDropdown && <RecipeListIceCream />}
+          </div>
         </div>
       </div>
-    </div>
-
-    </div>
     </>
-  )
-}
+  );
+};
 
-export default Component1
+export default Component1;

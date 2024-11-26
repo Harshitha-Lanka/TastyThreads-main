@@ -1,97 +1,73 @@
-
 const Recipe = require("../models/schema-recipeform");
-
-// Importing the User model
 const User = require("../models/schema-signup");
-const Feedback = require("../models/schemafeedback");
+const multer = require("multer");
 
-// Controller function for home route
+// Multer configuration
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "uploads/"); // Specify uploads folder
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + "-" + file.originalname); // Add timestamp to filenames
+  },
+});
+const upload = multer({ storage }); // Use the storage configuration
 
-const home = async (req, res) => {
-  try {
-    // Log the request body for debugging purposes
-    console.log(req.body);
-    
-    // Destructure username, email, phone, and password from the request body
-    const { username, email, phone, password } = req.body;
 
-    // Check if a user with the same email already exists in the database
-    const userExist = await User.findOne({ email: email });
-
-    // If a user with the email already exists, return a 400 status with an error message
-    if (userExist) {
-      return res.status(400).json({ msg: "Email already exists" });
-    }
-
-    // Create a new user with the provided details
-    const userCreated = await User.create({ username, email, phone, password });
-
-    // Send back a success response with the created user information
-    res.status(201).json({ msg: userCreated });
-  } catch (error) {
-    // If an error occurs, send a 500 status with a generic error message
-    res.status(500).json({ message: "Internal server error" });
+// Helper function to clean recipe data
+function cleanRecipeData(recipe) {
+  recipe.ingredients = recipe.ingredients.filter((ingredient) => ingredient !== "");
+  recipe.steps = recipe.steps.filter((step) => step !== "");
+  if (!recipe.image || recipe.image === "null") {
+    recipe.image = "default-image-url.jpg"; // Use placeholder image URL
   }
+  return recipe;
+}
+
+// Home controller
+const home = async (req, res) => {
+  res.status(200).send({ message: "Welcome to TastyThreads API" });
 };
 
-// Controller function for signup route
+// Signup controller
 const signup = async (req, res) => {
   try {
-    // Log the request body for debugging purposes
-    console.log(req.body);
-    
-    // Send a response with the received request body
-    res.status(200).send({ message: req.body });
+    const { username, email, phone, password } = req.body;
+
+    // Check for existing user
+    const userExist = await User.findOne({ email });
+    if (userExist) return res.status(400).json({ msg: "Email already exists" });
+
+    // Create new user
+    const userCreated = await User.create({ username, email, phone, password });
+    res.status(201).json({ msg: userCreated });
   } catch (error) {
-    // If an error occurs, send a 500 status with a generic error message
-    res.status(500).json({ message: "Error loading the page" });
+    res.status(500).json({ message: "Internal server error", error });
   }
 };
 
-
-  // const recipeform = async (req, res) => {
-  //   try {
-  //     res.status(200).send({ message: "recipe page" });
-  //   } catch (error) {
-  //     res.status(500).json({ message: "error loading the page" });
-  //   }
-  // };
-  const addRecipe = async (req, res) => {
-    console.log(req.body)
-    try {
-      const recipeData = req.body;
-      const newRecipe = new Recipe(recipeData);
-      await newRecipe.save();
-      res.status(201).json({ message: "Recipe added successfully", recipe: newRecipe });
-    } catch (error) {
-      console.error("Error adding recipe:", error); // Log the error details
-      res.status(500).json({ message: "Failed to add recipe", error });
-    }
-  };
-  
-  
-  // Get all recipes
-  const getRecipes = async (req, res) => {
-    try {
-      const recipes = await Recipe.find({});
-      res.status(200).json(recipes);
-    } catch (error) {
-      console.error("Error fetching recipes:", error); // Log the error details
-      res.status(500).json({ message: "Failed to retrieve recipes", error });
-    }
-  };
-  
-  
-  
-
-// Controller function for recipe form route
-const recipeform = async (req, res) => {
+// Add a new recipe
+const addRecipe = async (req, res) => {
   try {
-    // Send a response indicating that the recipe page was loaded successfully
-    res.status(200).send({ message: "Recipe page" });
+    const { recipeTitle, description, ingredients, steps, prepTime, cookTime, servings, category, calories } = req.body;
+    const image = req.file ? req.file.path : null; // If an image is uploaded
+
+    // Save the recipe
+    const newRecipe = await Recipe.create({
+      recipeTitle,
+      description,
+      ingredients,
+      steps,
+      prepTime,
+      cookTime,
+      servings,
+      category,
+      calories,
+      image,
+    });
+    res.status(201).json({ message: "Recipe added successfully", recipe: newRecipe });
   } catch (error) {
-    // If an error occurs, send a 500 status with a generic error message
-    res.status(500).json({ message: "Error loading the page" });
+    res.status(500).json({ message: "Failed to add recipe", error });
   }
 };
 const incrementDislikes = async (req, res) => {
@@ -154,6 +130,65 @@ module.exports = { submitFeedback };
 
 };
 
-// Exporting all controller functions to be used in other parts of the application
-module.exports = { home, signup, recipeform,addRecipe,getRecipes,incrementDislikes,incrementLikes,Feedback};
+// Get all recipes
+const getRecipes = async (req, res) => {
+  try {
+    const recipes = await Recipe.find({});
+    res.status(200).json(recipes);
+  } catch (error) {
+    res.status(500).json({ message: "Failed to retrieve recipes", error });
+  }
+};
 
+// Get a recipe by ID
+const getRecipeById = async (req, res) => {
+  try {
+    const { id } = req.params; // Extract the recipe ID from the request
+    const recipe = await Recipe.findById(id); // Find the recipe in the database by ID
+
+    if (!recipe) {
+      return res.status(404).json({ message: "Recipe not found" }); // Return error if recipe not found
+    }
+
+    const cleanedRecipe = cleanRecipeData(recipe); // Clean the recipe data if needed
+    res.status(200).json(cleanedRecipe); // Send the cleaned recipe back as JSON
+  } catch (error) {
+    console.error("Error fetching recipe by ID:", error); // Log errors for debugging
+    res.status(500).json({ error: "Internal server error" }); // Return generic server error
+  }
+};
+
+// Delete a recipe by ID
+const deleteRecipe = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const deletedRecipe = await Recipe.findByIdAndDelete(id);
+
+    if (!deletedRecipe) return res.status(404).json({ message: "Recipe not found" });
+
+    res.status(200).json({ message: "Recipe deleted successfully", recipe: deletedRecipe });
+  } catch (error) {
+    res.status(500).json({ message: "Failed to delete recipe", error });
+  }
+};
+// router.get('/api/recipes/:id', async (req, res) => {
+//   try {
+//     const recipe = await Recipe.findById(req.params.id);
+//     if (!recipe) {
+//       return res.status(404).json({ message: 'Recipe not found' });
+//     }
+//     res.json(recipe);
+//   } catch (error) {
+//     console.error('Error fetching recipe:', error);
+//     res.status(500).json({ message: 'Failed to fetch recipe' });
+//   }
+// });
+
+module.exports = {
+  home,
+  signup,
+  addRecipe,
+  getRecipes,
+  getRecipeById,
+  deleteRecipe,
+};

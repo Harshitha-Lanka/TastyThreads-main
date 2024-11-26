@@ -1,0 +1,66 @@
+/* Modal Overlay */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5); /* Dimmed background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Ensure it stays above other content */
+  }
+  
+  /* Modal Content */
+  .modal-content {
+    background: white;
+    width: 400px;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    position: relative;
+  }
+  
+  /* Close Button */
+  .modal-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: transparent;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+  }
+  
+  /* Buttons */
+  .modal-buttons {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+  }
+  
+  .modal-btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #000000;
+    color: white;
+    transition: background-color 0.3s ease;
+  }
+  
+  .modal-btn:hover {
+    background-color: #979797;
+  }
+  
+  .modal-signup-btn {
+    background-color: black;
+  }
+  
+  .modal-signup-btn:hover {
+    background-color: #979797;
+  }
+  
