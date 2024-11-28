@@ -12,24 +12,12 @@ const RecipeForm = () => {
     servings: '',
     category: '',
     calories: '',
-    image: null, // State to store the image file
   });
 
-  const [imagePreview, setImagePreview] = useState(null); // State to hold image preview
-
   const handleChange = (e) => {
-    const { name, value, dataset, files } = e.target;
+    const { name, value, dataset } = e.target;
 
-    if (name === 'image') {
-      const file = files[0];
-      setFormData({ ...formData, [name]: file });
-
-      // Generate a preview URL for the selected image
-      if (file) {
-        const previewUrl = URL.createObjectURL(file);
-        setImagePreview(previewUrl);
-      }
-    } else if (dataset.index) {
+    if (dataset.index) {
       const index = parseInt(dataset.index);
       setFormData((prevData) => ({
         ...prevData,
@@ -44,22 +32,11 @@ const RecipeForm = () => {
     e.preventDefault();
     console.log('Form Data:', formData);
 
-    // Create a FormData object to handle form submission
-    const data = new FormData();
-    for (let key in formData) {
-      if (key === 'ingredients' || key === 'steps') {
-        formData[key].forEach((item, index) =>
-          data.append(`${key}[${index}]`, item)
-        );
-      } else {
-        data.append(key, formData[key]);
-      }
-    }
-
     try {
       const response = await fetch('http://localhost:5000/TastyThreads/recipes/add', {
         method: 'POST',
-        body: data,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
       });
 
       if (response.ok) {
@@ -146,15 +123,7 @@ const RecipeForm = () => {
           className="formcontrol"
         />
 
-        <label className="form-label">Cooking Time (minutes):</label>
-        <input
-          type="number"
-          name="cookTime"
-          value={formData.cookTime}
-          onChange={handleChange}
-          required
-          className="formcontrol"
-        />
+      
 
         <label className="form-label">Calories:</label>
         <input
@@ -185,15 +154,6 @@ const RecipeForm = () => {
           <option value="icecreams">Ice Creams</option>
           <option value="salads">Salads</option>
         </select>
-
-        <label className="form-label">Image:</label>
-        {imagePreview && <img src={imagePreview} alt="Image Preview" style={{ maxWidth: '100%', height: 'auto' }} />}
-        <input
-          type="file"
-          name="image"
-          accept="image/*"
-          onChange={handleChange}
-        />
 
         <button type="button" className="button1" onClick={handleSubmit}>
           Add Recipe

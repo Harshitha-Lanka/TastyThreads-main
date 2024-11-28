@@ -1,28 +1,5 @@
 const Recipe = require("../models/schema-recipeform");
 const User = require("../models/schema-signup");
-const multer = require("multer");
-
-// Multer configuration
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "uploads/"); // Specify uploads folder
-  },
-  filename: (req, file, cb) => {
-    cb(null, Date.now() + "-" + file.originalname); // Add timestamp to filenames
-  },
-});
-const upload = multer({ storage }); // Use the storage configuration
-
-
-// Helper function to clean recipe data
-function cleanRecipeData(recipe) {
-  recipe.ingredients = recipe.ingredients.filter((ingredient) => ingredient !== "");
-  recipe.steps = recipe.steps.filter((step) => step !== "");
-  if (!recipe.image || recipe.image === "null") {
-    recipe.image = "default-image-url.jpg"; // Use placeholder image URL
-  }
-  return recipe;
-}
 
 // Home controller
 const home = async (req, res) => {
@@ -46,11 +23,10 @@ const signup = async (req, res) => {
   }
 };
 
-// Add a new recipe
+// Add a new recipe (without image)
 const addRecipe = async (req, res) => {
   try {
     const { recipeTitle, description, ingredients, steps, prepTime, cookTime, servings, category, calories } = req.body;
-    const image = req.file ? req.file.path : null; // If an image is uploaded
 
     // Save the recipe
     const newRecipe = await Recipe.create({
@@ -63,7 +39,6 @@ const addRecipe = async (req, res) => {
       servings,
       category,
       calories,
-      image,
     });
     res.status(201).json({ message: "Recipe added successfully", recipe: newRecipe });
   } catch (error) {
@@ -71,11 +46,21 @@ const addRecipe = async (req, res) => {
   }
 };
 
-// Get all recipes
+// Get all recipes (with optional category filtering)
 const getRecipes = async (req, res) => {
   try {
-    const recipes = await Recipe.find({});
-    res.status(200).json(recipes);
+    const { category } = req.query; // Extract category from query parameters
+
+    let recipes;
+    if (category) {
+      // If category is provided, filter recipes by category
+      recipes = await Recipe.find({ category });
+    } else {
+      // If no category is provided, get all recipes
+      recipes = await Recipe.find({});
+    }
+
+    res.status(200).json(recipes); // Send the list of recipes
   } catch (error) {
     res.status(500).json({ message: "Failed to retrieve recipes", error });
   }
@@ -84,18 +69,20 @@ const getRecipes = async (req, res) => {
 // Get a recipe by ID
 const getRecipeById = async (req, res) => {
   try {
-    const { id } = req.params; // Extract the recipe ID from the request
-    const recipe = await Recipe.findById(id); // Find the recipe in the database by ID
+    const { id } = req.params; // Get recipe ID from URL
+    console.log('Fetching recipe with ID:', id); // Log the ID for debugging
+
+    // Find the recipe by ID in the database
+    const recipe = await Recipe.findById(id);
 
     if (!recipe) {
-      return res.status(404).json({ message: "Recipe not found" }); // Return error if recipe not found
+      return res.status(404).json({ message: "Recipe not found" }); // Handle if recipe not found
     }
 
-    const cleanedRecipe = cleanRecipeData(recipe); // Clean the recipe data if needed
-    res.status(200).json(cleanedRecipe); // Send the cleaned recipe back as JSON
+    res.status(200).json(recipe); // Send the found recipe as response
   } catch (error) {
-    console.error("Error fetching recipe by ID:", error); // Log errors for debugging
-    res.status(500).json({ error: "Internal server error" }); // Return generic server error
+    console.error('Error fetching recipe:', error); // Log the error for debugging
+    res.status(500).json({ message: "Internal server error", error });
   }
 };
 
@@ -112,18 +99,6 @@ const deleteRecipe = async (req, res) => {
     res.status(500).json({ message: "Failed to delete recipe", error });
   }
 };
-// router.get('/api/recipes/:id', async (req, res) => {
-//   try {
-//     const recipe = await Recipe.findById(req.params.id);
-//     if (!recipe) {
-//       return res.status(404).json({ message: 'Recipe not found' });
-//     }
-//     res.json(recipe);
-//   } catch (error) {
-//     console.error('Error fetching recipe:', error);
-//     res.status(500).json({ message: 'Failed to fetch recipe' });
-//   }
-// });
 
 module.exports = {
   home,

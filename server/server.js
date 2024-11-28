@@ -8,6 +8,8 @@ const router = require("./routers/route");
 const app = express();  // Initialize the app here
 const PORT = 5000;
 
+
+
 // Middleware
 app.use(cors()); // Enable CORS
 app.use(express.json());
@@ -21,13 +23,13 @@ const upload = multer({ dest: "uploads/" });
 app.use(upload.none()); // Default multer setup for parsing multipart/form-data
 
 // Routes
-app.use("/TastyThreads", router);
+app.use("/", router);
 
 // Database connection and server startup
 connectDb()
   .then(() => {
     app.listen(PORT, () => {
-      console.log(`Server is running at http://localhost:${PORT}`);
+      console.log(`Server is running at :${PORT}`);
     });
   })
   .catch((error) => {

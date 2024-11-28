@@ -8,7 +8,7 @@ const RecipeListIceCream = () => {
   useEffect(() => {
     const fetchRecipes = async () => {
       try {
-        const response = await fetch("http://localhost:5000/TastyThreads/recipes");
+        const response = await fetch("http://localhost:5000/recipes");
         const data = await response.json();
 
         // Filter only Ice Cream recipes
