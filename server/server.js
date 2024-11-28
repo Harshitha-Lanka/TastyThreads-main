@@ -36,3 +36,11 @@ connectDb()
     console.error("Database connection failed", error);
     process.exit(1); // Exit the process if DB connection fails
   });
+<<<<<<< HEAD
+}).catch((error) => {
+  console.error("Database connection failed", error);
+  
+  process.exit(1); // Exit the process with an error
+});
+=======
+>>>>>>> 81fe4ec64ccaafe3d2ee3df5cefc5e8501aabfaf

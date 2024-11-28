@@ -45,6 +45,65 @@ const addRecipe = async (req, res) => {
     res.status(500).json({ message: "Failed to add recipe", error });
   }
 };
+const incrementDislikes = async (req, res) => {
+  const { id } = req.params; // Recipe ID from the request parameters
+
+  try {
+    const recipe = await Recipe.findOneAndUpdate(
+      { recipeId: id },
+      { $inc: { dislikes: 1 } }, // Increment the 'dislikes' field by 1
+      { new: true, upsert: true } // Return the updated document and create it if it doesn't exist
+    );
+
+    res.status(200).json(recipe); // Return the updated recipe
+  } catch (error) {
+    res.status(500).json({ message: "Error incrementing dislikes", error: error.message });
+  }
+};
+const incrementLikes = async (req, res) => {
+  const { id } = req.params; // Recipe ID from the request parameters
+
+  try {
+    const recipe = await Recipe.findOneAndUpdate(
+      { recipeId: id },
+      { $inc: { likes: 1 } }, // Increment the 'likes' field by 1
+      { new: true, upsert: true } // Return the updated document and create it if it doesn't exist
+    );
+
+    res.status(200).json(recipe); // Return the updated recipe
+  } catch (error) {
+    res.status(500).json({ message: "Error incrementing likes", error: error.message });
+  }
+  const Feedback = require("../models/feedbackModel"); // Import the Feedback model
+
+// Controller to handle feedback submission
+const submitFeedback = async (req, res) => {
+  const { name, email, message } = req.body; // Extract data from the request body
+
+  // Input validation (additional checks for server-side validation)
+  if (!name || !email || !message) {
+    return res.status(400).json({ error: "All fields are required." });
+  }
+
+  try {
+    // Create a new feedback document
+    const feedback = new Feedback({ name, email, message });
+
+    // Save the feedback to the database
+    await feedback.save();
+
+    // Respond with success message
+    res.status(201).json({ message: "Feedback submitted successfully!" });
+  } catch (error) {
+    // Handle any errors during database operations
+    console.error("Error saving feedback:", error);
+    res.status(500).json({ error: "Internal server error. Please try again later." });
+  }
+};
+
+module.exports = { submitFeedback };
+
+};
 
 // Get all recipes (with optional category filtering)
 const getRecipes = async (req, res) => {
