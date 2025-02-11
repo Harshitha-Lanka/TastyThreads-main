@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
-
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom"; // Import Link for navigation
+import styles from './Component1.module.css';
 
 const RecipeListDrinks = () => {
     const [recipes, setRecipes] = useState([]);
@@ -15,7 +16,7 @@ const RecipeListDrinks = () => {
                 const drinkRecipes = data.filter((recipe) => recipe.category === "drinks");
                 setRecipes(drinkRecipes);
             } catch (error) {
-                console.error("Error fetching recipes:", error);
+                console.error("Error fetching drinks recipes:", error);
             }
         };
 
@@ -27,8 +28,11 @@ const RecipeListDrinks = () => {
             <h3 className="text-primary text-center">Drink Recipes</h3>
             <ul>
                 {recipes.map((recipe) => (
-                    <li key={recipe.id} className="recipe-item">
-                        <strong>{recipe.recipeTitle}</strong>
+                    <li key={recipe._id} className={styles.recipeItem}>
+                        {/* Link to the recipe details page */}
+                        <Link to={`/recipes/${recipe._id}`} className={styles.recipeLink}>
+                            <strong>{recipe.recipeTitle}</strong>
+                        </Link>
                     </li>
                 ))}
             </ul>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-// Ensure the CSS file is in the same folder
+import { Link } from "react-router-dom"; // Import Link for navigation
 import styles from './Component1.module.css';
 
 const RecipeListCuisines = () => {
@@ -12,7 +12,7 @@ const RecipeListCuisines = () => {
         const response = await fetch("http://localhost:5000/recipes");
         const data = await response.json();
 
-        // Filter recipes by category 'cuisine'
+        // Filter recipes by category 'cuisines'
         const cuisinesRecipes = data.filter((recipe) => recipe.category === "cuisines");
         setRecipes(cuisinesRecipes);
       } catch (error) {
@@ -28,8 +28,11 @@ const RecipeListCuisines = () => {
       <h2 className="text-primary text-center">Cuisines Recipes</h2>
       <ul>
         {recipes.map((recipe) => (
-          <li key={recipe.id} className={styles.recipeItem}>
-            <strong>{recipe.recipeTitle}</strong>
+          <li key={recipe._id} className={styles.recipeItem}>
+            {/* Link to the recipe details page */}
+            <Link to={`/recipes/${recipe._id}`} className={styles.recipeLink}>
+              <strong>{recipe.recipeTitle}</strong>
+            </Link>
           </li>
         ))}
       </ul>

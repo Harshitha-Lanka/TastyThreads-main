@@ -30,24 +30,31 @@ const RecipeForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Form Data:', formData);
-
+    console.log("🟢 Sending Recipe Data:", formData); // Debugging Log
+  
     try {
-      const response = await fetch('http://localhost:5000/TastyThreads/recipes/add', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const response = await fetch("http://localhost:5000/recipes/add", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
-
+  
+      const responseData = await response.json();
+      console.log("🟢 API Response:", responseData); // Debugging Log
+  
       if (response.ok) {
-        console.log('Recipe submitted successfully!');
+        console.log("✅ Recipe submitted successfully:", responseData);
+        alert("Recipe added successfully!");
       } else {
-        console.error('Failed to submit recipe');
+        console.error("❌ Failed to submit recipe:", responseData);
+        alert("Error: " + responseData.error);
       }
     } catch (error) {
-      console.error('Error:', error);
+      console.error("❌ Network Error:", error);
+      alert("An error occurred while adding the recipe.");
     }
   };
+  
 
   return (
     <div className="recipepage">

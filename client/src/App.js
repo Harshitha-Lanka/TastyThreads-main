@@ -9,6 +9,7 @@ import RecipeDetailsPage from './Components/RecipeDetailsPage';
 import './index.css'
 import Signup from './Components/Signup';
 import Recipedetailing from './Components/Recipedetailing'
+import BreakfastList from './Components/Breakfasting';
 
 
 function App() {
@@ -28,6 +29,7 @@ function App() {
          <Route path="/recipe/:name" element={<RecipeDetailsPage />} />
          <Route path="/Signup" element={<Signup/>}/>
          <Route path="/recipes/:id" element={<Recipedetailing />} />
+         <Route path="/breakfast" element={<BreakfastList />} />
         
 
         </Routes>

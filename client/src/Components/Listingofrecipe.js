@@ -19,15 +19,23 @@ const RecipeListPage = () => {
   }, []);
 
   return (
-    <div className="recipe-list">
+    <div className="recipe-list1">
       <h1 className="list-title">Recipe List</h1>
       <ul>
         {recipes.map((recipe) => (
           <li key={recipe._id}>
             {/* Clickable link to go to the details page of the recipe */}
-            <Link to={`/recipes/${recipe._id}`} className="recipe-link">
-              {recipe.recipeTitle}
-            </Link>
+            <Link
+  to={`/recipes/${recipe._id}`}
+  style={{
+    color: "#007bff",
+    textDecoration: "none",
+    fontSize: "18px",
+    cursor: "pointer",
+  }}
+>
+  {recipe.recipeTitle}
+</Link>
           </li>
         ))}
       </ul>

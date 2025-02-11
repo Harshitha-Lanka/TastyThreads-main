@@ -84,23 +84,23 @@ function RecipeDetailsPage() {
     
      
 
-    else if(name == "Indian"){
+    else if(name === "Indian"){
         return <Indian/>
-    }else if(name == "Italian"){
+    }else if(name === "Italian"){
         return <Italian/>
-    }else if(name == "Chinese"){
+    }else if(name === "Chinese"){
         return <Chinese/>
-    }else if(name == "Chai"){
+    }else if(name === "Chai"){
         return <Chai/>
-    }else if(name == "Lassi"){
+    }else if(name === "Lassi"){
         return <Lassi/>
-    }else if(name == "Buttermilk"){
+    }else if(name === "Buttermilk"){
         return <Buttermilk/>
-    }else if(name == "Poha"){
+    }else if(name === "Poha"){
         return <Poha/>
-    }else if(name == "Vibrant"){
+    }else if(name === "Vibrant"){
         return <Vibrant/>
-    }else if(name == "Upma"){
+    }else if(name === "Upma"){
         return <Upma/>
     }
     else {

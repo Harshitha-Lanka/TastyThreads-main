@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-// Make sure the CSS file is in the same folder
+import { Link } from "react-router-dom"; // Import Link for navigation
 import styles from './Component1.module.css';
 
 const BreakfastRecipeList = () => {
@@ -28,8 +28,11 @@ const BreakfastRecipeList = () => {
       <h2 className="text-primary text-center">Breakfast Recipes</h2>
       <ul>
         {recipes.map((recipe) => (
-          <li key={recipe.id} className="recipe-item">
-            <strong>{recipe.recipeTitle}</strong>
+          <li key={recipe._id} className="recipe-item">
+            {/* Ensure recipe title is clickable and navigates to details page */}
+            <Link to={`/recipes/${recipe._id}`} className={styles.recipeLink}>
+              <strong>{recipe.recipeTitle}</strong>
+            </Link>
           </li>
         ))}
       </ul>
