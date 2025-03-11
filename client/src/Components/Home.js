@@ -14,6 +14,7 @@ function Home() {
   const [isModalOpen, setIsModalOpen] = useState(false); // State to control modal
   const location = useLocation();
   const navigate = useNavigate();
+  const [viewContent, setViewContent] = useState("");
 
   // Check login status (replace this logic with your actual login check)
   const isLoggedIn = localStorage.getItem("isLoggedIn") === "true"; // Example logic
@@ -42,6 +43,33 @@ function Home() {
     { src: Image2, name: "Chole Bhature" },
     { src: Image3, name: "Momos" }
   ];
+
+
+  // Function to handle submission of views
+  const handleSubmitView = async () => {
+    try {
+      const response = await fetch("http://localhost:5000/TastyThreads/views", {  // Explicitly mention backend URL
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ content: viewContent }), 
+      });
+  
+      if (response.ok) {
+        alert("View submitted successfully!"); 
+        setViewContent(""); 
+      } else {
+        const errorData = await response.json(); 
+        alert("Failed to submit view: " + (errorData.message || "Please try again."));
+      }
+    } catch (error) {
+      console.error("Error submitting view:", error);
+      alert("An error occurred. Please check console for details.");
+    }
+  };
+  
+
 
   return (
     <>
@@ -141,18 +169,25 @@ function Home() {
           </p>
         </section>
 
-        {/* Express Your Views Section */}
-        <section className="express-views-section">
-          <h2>Express Your Views</h2>
-          <textarea
-            className="views-textbox"
-            placeholder="Share your thoughts here..."
-            rows="6"
-          />
-          <div className="button-container">
-            <button className="btn-submit btn-explore">Submit</button>
-          </div>
-        </section>
+       {/* Express Your Views Section */}
+      <section className="express-views-section">
+        <h2>Express Your Views</h2>
+        <textarea
+          className="views-textbox"
+          placeholder="Share your thoughts here..."
+          rows="6"
+          value={viewContent} // Bind the textarea value to the state
+          onChange={(e) => setViewContent(e.target.value)} // Update state on change
+        />
+        <div className="button-container">
+          <button
+            className="btn-submit btn-explore"
+            onClick={handleSubmitView} // Call the submission function on click
+          >
+            Submit
+          </button>
+        </div>
+      </section>
       </div>
 
       <Footer />

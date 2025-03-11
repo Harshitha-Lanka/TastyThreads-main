@@ -4,6 +4,7 @@ const cors = require("cors");
 const multer = require("multer");
 const connectDb = require("./config/db");
 const router = require("./routers/route");
+const viewRoutes = require('./routers/viewRoutes');
 
 const app = express();
 const PORT = 5000;
@@ -22,6 +23,9 @@ app.use(upload.none());
 
 // ✅ Routes (should come AFTER middleware)
 app.use("/", router);
+
+app.use('/TastyThreads/views', viewRoutes);
+
 
 // Database connection and server startup
 connectDb()
