@@ -1,28 +1,8 @@
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
-
-
-import react from 'react';
-import component1 from '../Components/Component1'
-import component2 from '../Components/Component2'
-import component3 from '../Components/Component3'
-import component4 from '../Components/Component4'
-import component5 from '../Components/Component5'
-import component6 from '../Components/Component6'
-import component7 from '../Components/Component7'
-import component8 from '../Components/Component8'
-import component9 from '../Components/Component9'
-
-
-import styles from '../Components/Component1.module.css';
-
-import Footer from './Footer'
-import Header from './Header'
-import Statistics from './Statistics'
-
-
-
-
-import React from "react";
+import styles from "../Components/Component1.module.css";
 
 import Component1 from "../Components/Component1";
 import Component2 from "../Components/Component2";
@@ -34,33 +14,51 @@ import Component7 from "../Components/Component7";
 import Component8 from "../Components/Component8";
 import Component9 from "../Components/Component9";
 
-
-import { useNavigate } from "react-router-dom";
-import Idly from "./Idly";
-
-
-
-import Styles from "../Components/Component1.module.css";
-import { UseNavigate } from "react-router-dom";
-import idly from "./Idly";
-
-import footer from "./Footer";
-import header from "./Header";
-import statistics from "./Statistics";
-
+import Footer from "./Footer";
+import Header from "./Header";
+import Statistics from "./Statistics";
 
 const RecipeListPage = () => {
   const navigate = useNavigate();
 
+  // State for Contact Form
+  const [contactData, setContactData] = useState({
+    name: "",
+    email: "",
+    message: "",
+  });
+
+  // Handle input change
+  const handleChange = (e) => {
+    setContactData({ ...contactData, [e.target.name]: e.target.value });
+  };
+
+  // Handle form submission
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await axios.post("http://localhost:5000/contact", contactData);
+
+      if (response.status === 201) {
+        alert("Message sent successfully!");
+        setContactData({ name: "", email: "", message: "" }); // Reset form
+      }
+    } catch (error) {
+      console.error("Error submitting contact form:", error);
+      alert("Something went wrong. Please try again.");
+    }
+  };
+
   const buttonClicking = () => {
     navigate("/Recipeform");
   };
+
   return (
     <>
       <Header />
       <Header />
       <div className={styles.pagecontainer}>
-        {/* Recipe Card Container */}
         <div className={styles.recipeCardContainer}>
           <Component1 />
           <Component2 />
@@ -80,39 +78,49 @@ const RecipeListPage = () => {
           Add your Recipe
         </button>
       </div>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
+
+      <br /><br /><br /><br /><br />
+
+      {/* Contact Form */}
       <div className={styles.formContainer}>
-        <h1 className={styles.contact}>
-          Questions or feedback? Let's Connect!
-        </h1>
-        <div className={styles.inputContainer}>
-          <input
-            type="text"
-            name="texts"
-            className={styles.text}
-            placeholder="Name"
-          />
-          <input
-            type="email"
-            name="email"
-            className={styles.emails}
-            placeholder="Email"
-          />
-          <textarea
-            rows={10}
-            columns={50}
-            className={styles.message}
-            placeholder="Message"
-          />
-        </div>
-        <div className={styles.buttonContainer}>
-          <button className={styles.submits}>Submit</button>
-        </div>
+        <h1 className={styles.contact}>Questions or feedback? Let's Connect!</h1>
+        <form onSubmit={handleSubmit}>
+          <div className={styles.inputContainer}>
+            <input
+              type="text"
+              name="name"
+              className={styles.text}
+              placeholder="Name"
+              value={contactData.name}
+              onChange={handleChange}
+              required
+            />
+            <input
+              type="email"
+              name="email"
+              className={styles.emails}
+              placeholder="Email"
+              value={contactData.email}
+              onChange={handleChange}
+              required
+            />
+            <textarea
+              rows={10}
+              columns={50}
+              name="message"
+              className={styles.message}
+              placeholder="Message"
+              value={contactData.message}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className={styles.buttonContainer}>
+            <button type="submit" className={styles.submits}>Submit</button>
+          </div>
+        </form>
       </div>
+
       <Statistics />
       <Footer />
     </>
