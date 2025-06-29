@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom"; // Import Link for navigation
 import styles from './Component1.module.css';
-
+import axios from "axios"
 const RecipeListLunch = () => {
   const [recipes, setRecipes] = useState([]);
 
@@ -9,7 +9,8 @@ const RecipeListLunch = () => {
   useEffect(() => {
     const fetchRecipes = async () => {
       try {
-        const response = await fetch("http://localhost:5000/recipes");
+       const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/recipes`);
+
         const data = await response.json();
 
         // Filter only Lunch recipes
