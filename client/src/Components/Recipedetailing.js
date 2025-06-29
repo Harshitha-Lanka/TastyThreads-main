@@ -1,44 +1,49 @@
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom"; // Import Link for navigation
-import styles from './Component1.module.css';
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import axios from "axios";
+import "./Recipedetailing.css";
 
-const BreakfastRecipeList = () => {
-  const [recipes, setRecipes] = useState([]);
+const Recipedetailing = () => {
+  const { id } = useParams();
+  const [recipe, setRecipe] = useState(null);
 
-  // Fetch recipes from the backend
   useEffect(() => {
-    const fetchRecipes = async () => {
+    const fetchRecipe = async () => {
       try {
-        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/recipes`);
-
-        const data = await response.json();
-
-        // Filter only Breakfast recipes
-        const breakfastRecipes = data.filter((recipe) => recipe.category === "breakfast");
-        setRecipes(breakfastRecipes);
+        const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/recipes/${id}`);
+        setRecipe(response.data);
       } catch (error) {
-        console.error("Error fetching recipes:", error);
+        console.error("Error fetching recipe details:", error);
       }
     };
 
-    fetchRecipes();
-  }, []);
+    fetchRecipe();
+  }, [id]);
+
+  if (!recipe) return <div>Loading...</div>;
 
   return (
-    <div>
-      <h2 className="text-primary text-center">Breakfast Recipes</h2>
+    <div className="recipe-details">
+      <h1>{recipe.recipeTitle || "No Title"}</h1>
+      <p>{recipe.description}</p>
+      <h2>Ingredients</h2>
       <ul>
-        {recipes.map((recipe) => (
-          <li key={recipe._id} className="recipe-item">
-            {/* Ensure recipe title is clickable and navigates to details page */}
-            <Link to={`/recipes/${recipe._id}`} className={styles.recipeLink}>
-              <strong>{recipe.recipeTitle}</strong>
-            </Link>
-          </li>
-        ))}
+        {recipe.ingredients && recipe.ingredients.length > 0 ? (
+          recipe.ingredients.map((item, index) => <li key={index}>{item}</li>)
+        ) : (
+          <li>No ingredients</li>
+        )}
       </ul>
+      <h2>Instructions</h2>
+      <ol>
+        {recipe.steps && recipe.steps.length > 0 ? (
+          recipe.steps.map((step, index) => <li key={index}>{step}</li>)
+        ) : (
+          <li>No instructions</li>
+        )}
+      </ol>
     </div>
   );
 };
 
-export default BreakfastRecipeList;
+export default Recipedetailing;
