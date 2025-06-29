@@ -1,1 +1,118 @@
+/* Recipe Details Container */
+.recipe-details {
+  max-width: 960px;
+  margin: 40px auto;
+  padding: 40px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #1a1a1a, #2e2e2e);
+  color: #f1f1f1;
+  font-family: 'Poppins', sans-serif;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
+}
+
+/* Title Styling */
+.recipe-title {
+  font-size: 3rem;
+  font-weight: 800;
+  text-align: center;
+  margin-bottom: 20px;
+  color: #ffcf4d;
+  text-shadow: 2px 2px 5px rgba(255, 207, 77, 0.3);
+}
+
+/* Description Styling */
+.recipe-description {
+  font-size: 1.2rem;
+  text-align: center;
+  background: linear-gradient(to right, #3b3b3b, #2b2b2b);
+  padding: 15px 25px;
+  margin-bottom: 30px;
+  border-radius: 12px;
+  color: #dddddd;
+  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
+}
+
+/* Section Headings */
+.recipe-info h2 {
+  font-size: 1.8rem;
+  margin-top: 30px;
+  margin-bottom: 15px;
+  color: #ffffff;
+  border-left: 6px solid #ffcf4d;
+  padding-left: 12px;
+  text-transform: uppercase;
+  text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.2);
+}
+
+/* Lists */
+.recipe-info ul,
+.recipe-info ol {
+  padding-left: 30px;
+}
+
+.recipe-info li {
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 8px;
+  margin-bottom: 10px;
+  padding: 10px 15px;
+  font-size: 1.1rem;
+  color: #f1f1f1;
+  box-shadow: 0 4px 10px rgba(255, 255, 255, 0.08);
+  transition: transform 0.2s ease, background 0.3s ease;
+}
+
+.recipe-info li:hover {
+  background: rgba(255, 255, 255, 0.12);
+  transform: translateX(5px);
+}
+
+/* Metadata section */
+.recipe-meta {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  margin-top: 40px;
+  background: linear-gradient(to right, #383838, #2b2b2b);
+  padding: 25px;
+  border-radius: 14px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+}
+
+.recipe-meta p {
+  margin: 10px;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #ffcf4d;
+  text-shadow: 1px 1px 3px rgba(255, 255, 255, 0.2);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .recipe-details {
+    padding: 20px;
+  }
+
+  .recipe-title {
+    font-size: 2.2rem;
+  }
+
+  .recipe-description {
+    font-size: 1rem;
+    padding: 12px;
+  }
+
+  .recipe-meta {
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+  }
+
+  .recipe-meta p {
+    font-size: 1rem;
+  }
+
+  .recipe-info h2 {
+    font-size: 1.4rem;
+  }
+}
 
