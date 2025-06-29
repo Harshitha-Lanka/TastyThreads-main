@@ -7,24 +7,23 @@ const Recipedetailing = () => {
   const { id } = useParams(); // Get the recipe ID from the URL
   const [recipe, setRecipe] = useState(null);
 
-useEffect(() => {
-  const fetchRecipe = async () => {
-    try {
-      const res = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/recipes/${id}`);
-      console.log("Fetched recipe:", res.data);
-      setRecipe(res.data);
-    } catch (error) {
-      console.error("Error fetching recipe details:", error);
-    }
-  };
+  useEffect(() => {
+    const fetchRecipe = async () => {
+      try {
+        const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/recipes/${id}`);
+        console.log("Calling:", `${process.env.REACT_APP_BACKEND_URL}/recipes/${id}`);
+        console.log("Fetched recipe:", response.data);
+        setRecipe(response.data);
+      } catch (error) {
+        console.error("Error fetching recipe details:", error);
+      }
+    };
 
-  fetchRecipe();
-}, [id]);
+    fetchRecipe();
+  }, [id]);
 
-  // Loading state while fetching recipe data
   if (!recipe) return <div>Loading...</div>;
 
-  // Render recipe details with proper CSS
   return (
     <div className="recipe-details">
       <h1 className="recipe-title">{recipe.recipeTitle || "No Title Available"}</h1>
