@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom"; // Import Link for navigation
 import styles from './Component1.module.css';
+import axios from "axios";
 
 const RecipeListSalads = () => {
   const [recipes, setRecipes] = useState([]);
@@ -10,7 +11,8 @@ const RecipeListSalads = () => {
     const fetchRecipes = async () => {
       try {
         // Ensure this is the correct API path
-        const response = await fetch("http://localhost:5000/recipes");
+    const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/recipes`);
+
         const data = await response.json();
 
         // Filter only Salad recipes
